@@ -12,6 +12,7 @@ button, input[type="text"] {
 
 button:hover {
   cursor: pointer;
+  color: red;
 }
 
 #shopping-list-item {
