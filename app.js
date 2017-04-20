@@ -1,35 +1,95 @@
-var add = function(a, b) {
-	return a + b;
+var state = {
+	list: []
 }
 
-/*var list = {
-	items: []
-};*/
-//created object to for list array
-//cannot get this empty object to work
+//function to add entry to "list"
 
-var list = ["apples", "pears"];
-var item = "milk";
-//testing variables
-
-var addItem = function(list, item) {
-	list.push(item);
-	console.log(list);
-};
-//created function to add items to the array
-
-var renderList = function(list) {
-	var itemsHTML = function(list) {
-		return '<li>' + list + '</li>';
-		console.log(itemsHTML);
-	};
-	//element.html(itemsHTML);
-};
-//created function to render HTML
-
-$('.shopping-list-entry').submit(function(event){
+$('#js-add-button').click(function(event){
 	event.preventDefault();
-	addItem(list, $('.js-add-button').val());
-	renderList(list, $('.shopping-list'))
-	console.log("hello");
-})
+	state.list.push( {
+		name:$('#shopping-list-entry').val(),
+		check: false
+	});
+	
+	renderList();
+	/*$('ul').append(
+		'<li>' + list + '<br>' + '<br>' +
+		'<button id="js-check">' + "check" + '</button>  ' +
+		'<button id="js-delete">' + 'delete' + '</button>' +
+		'</li>');
+		*/
+});
+
+function renderList() {
+	$('ul').html("");
+	state.list.forEach(function(item,index) {
+		var check = item.check ? 'specialClass':'';
+		$('ul').append(
+		'<li class="js-item-' + index + ' ' + check + '" >' + item.name + '<br>' + '<br>' +
+		'<button class="js-check" item-id="'+ index +'">' + "check" + '</button>  ' +
+		'<button class="js-delete" item-id="'+ index +'">' + 'delete' + '</button>' +
+		'</li>');
+	});
+}
+
+$('.js-check').click(function(event) {
+		event.preventDefault();
+			var index = $(this).attr('item-id');
+			console.log(index);
+			state.list[index].check = true;
+			renderList();
+	});
+
+$('.js-delete').click(function(event) {
+	event.preventDefault();
+		var index = $(this).attr('item-id');
+		$('li').remove(list);
+		console.log("hello");
+});
+
+
+/*
+//global variables (global state object)
+var state = {
+	items: []
+};
+// create state
+
+var listItemTemplate = (
+	'<li>' +
+	'<span class="shopping-item js-shopping-item"></span>' +
+	'<div class="shopping-item-controls">' +
+		'<button class="js-shopping-item-toggle">' +
+			'<span class="button-label">check</span>' +
+		'<button>' +
+		'<button class="js-shopping-item-delete">' +
+			'<span class="button-label">delete</span>' +
+		'</button>' +
+	'</div>' +
+	'</li>'
+);
+
+//state management
+function addItem(state, item) {
+	state.items.push({
+		displayName: item,
+		checkedOff: false
+	});
+}
+
+function getItem(state, itemIndex) {
+	return state.items[itemIndex];
+}
+
+function deleteItem(state, itemIndex) {
+	state.items.splice(itemIndex, 1);
+}
+
+//splice is calling how many items to delete
+
+function updateItem(state, itemIndex, newItemState) {
+	state.items[itemIndex] = newItemState;
+}
+
+//to modify the list - assign a new object
+*/
