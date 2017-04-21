@@ -10,7 +10,6 @@ $('#js-add-button').click(function(event){
 		name:$('#shopping-list-entry').val(),
 		check: false
 	});
-	
 	renderList();
 	/*$('ul').append(
 		'<li>' + list + '<br>' + '<br>' +
@@ -38,7 +37,7 @@ $('.js-check').click(function(event) {
 			console.log(index);
 			state.list[index].check = true;
 			renderList();
-	});
+});
 
 $('.js-delete').click(function(event) {
 	event.preventDefault();
