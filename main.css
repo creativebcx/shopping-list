@@ -47,6 +47,6 @@ button:hover {
   text-decoration: line-through;
 }
 
-.specialClass {
+.specialClass < button {
   text-decoration: line-through;
 }

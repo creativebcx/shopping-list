@@ -1,94 +1,56 @@
 var state = {
 	list: []
 }
-
-//function to add entry to "list"
+//object with array created to place list items into
 
 $('#js-add-button').click(function(event){
+	//this is the event listener function - waiting for an event
 	event.preventDefault();
+	//prevents DOM from executing immediately after the event takes place
 	state.list.push( {
 		name:$('#shopping-list-entry').val(),
 		check: false
 	});
+	//updates the array with the "field" element and sets the check
 	renderList();
-	/*$('ul').append(
-		'<li>' + list + '<br>' + '<br>' +
-		'<button id="js-check">' + "check" + '</button>  ' +
-		'<button id="js-delete">' + 'delete' + '</button>' +
-		'</li>');
-		*/
+	//this runs the renderList function everytime this event is called
+	//because the list is rebuilt after every event
+	$('#shopping-list-entry').val('');
+	//this "renames" the index number after every event which is 
+	//useful after you delete an item
 });
 
 function renderList() {
 	$('ul').html("");
 	state.list.forEach(function(item,index) {
-		var check = item.check ? 'specialClass':'';
+		var checkClass;
+		//var check = item.check ? 'specialClass':'';
+		if (state.list[index].check === true) {
+			checkClass = 'specialClass';
+		}
+		else {
+			checkClass = '';
+		};
 		$('ul').append(
-		'<li class="js-item-' + index + ' ' + check + '" >' + item.name + '<br>' + '<br>' +
+		'<li class="js-item-' + index + ' ' + checkClass + '" >' + item.name + '<br>' + '<br>' +
 		'<button class="js-check" item-id="'+ index +'">' + "check" + '</button>  ' +
 		'<button class="js-delete" item-id="'+ index +'">' + 'delete' + '</button>' +
 		'</li>');
 	});
-}
-
-$('.js-check').click(function(event) {
-		event.preventDefault();
-			var index = $(this).attr('item-id');
-			console.log(index);
-			state.list[index].check = true;
-			renderList();
-});
-
-$('.js-delete').click(function(event) {
-	event.preventDefault();
+	$('.js-check').click(function(event) {
+		event.preventDefault();	
 		var index = $(this).attr('item-id');
-		$('li').remove(list);
-		console.log("hello");
-});
-
-
-/*
-//global variables (global state object)
-var state = {
-	items: []
-};
-// create state
-
-var listItemTemplate = (
-	'<li>' +
-	'<span class="shopping-item js-shopping-item"></span>' +
-	'<div class="shopping-item-controls">' +
-		'<button class="js-shopping-item-toggle">' +
-			'<span class="button-label">check</span>' +
-		'<button>' +
-		'<button class="js-shopping-item-delete">' +
-			'<span class="button-label">delete</span>' +
-		'</button>' +
-	'</div>' +
-	'</li>'
-);
-
-//state management
-function addItem(state, item) {
-	state.items.push({
-		displayName: item,
-		checkedOff: false
+			//console.log(index);
+			state.list[index].check = !state.list[index].check;
+			renderList();
+	console.log($(this).attr('item-id'));
 	});
+	$('.js-delete').click(function(event) {
+		event.preventDefault();	
+		var index = $(this).attr('item-id');
+			//console.log(index);
+			state.list.splice(index,1);
+			renderList();
+	console.log($(this).attr('item-id'));
+});
 }
-
-function getItem(state, itemIndex) {
-	return state.items[itemIndex];
-}
-
-function deleteItem(state, itemIndex) {
-	state.items.splice(itemIndex, 1);
-}
-
-//splice is calling how many items to delete
-
-function updateItem(state, itemIndex, newItemState) {
-	state.items[itemIndex] = newItemState;
-}
-
-//to modify the list - assign a new object
-*/
